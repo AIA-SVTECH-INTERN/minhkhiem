@@ -1,2 +1,0 @@
-# khiemdepzai
-CSV và TXT
