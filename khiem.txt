@@ -6,6 +6,38 @@ erp_solution_providers = """
 4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
 5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
 """
+payment_intermediaries = """
+1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
+2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
+3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
+4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
+5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
+"""
+
+sales_solution_providers = """
+1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
+2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
+3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
+4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
+5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
+"""
+
+hotel_management_platform_providers = """
+1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
+2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
+3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
+4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
+5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
+"""
+
+direct_enterprise_clients = """
+1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
+2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
+3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
+4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
+5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
+"""
+
 
 # Tạo đường dẫn cho file
 file_paths = {
