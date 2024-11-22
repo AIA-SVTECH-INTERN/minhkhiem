@@ -1,65 +1,35 @@
-# Dữ liệu cho từng nhóm
-erp_solution_providers = """
-1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
-2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
-3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
-4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
-5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
-"""
-payment_intermediaries = """
-1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
-2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
-3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
-4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
-5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
-"""
+import pdfplumber
+import os
 
-sales_solution_providers = """
-1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
-2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
-3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
-4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
-5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
-"""
+# Đường dẫn tới file PDF
+pdf_path = '/Users/nguyenkhiem/Downloads/1. HUONG DAN TRAI NGHIEM BIDV OPEN API FINAL - Update.pdf'  
 
-hotel_management_platform_providers = """
-1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
-2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
-3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
-4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
-5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
-"""
+# Tạo thư mục để lưu các file .txt 
+output_dir = 'output_txt_files'
+os.makedirs(output_dir, exist_ok=True)
 
-direct_enterprise_clients = """
-1. Thông tin ngân hàng (mạng lưới, lãi suất, tỉ giá)
-2. Vấn tin thông tin tài khoản doanh nghiệp - Kết nối BIDV iBank
-3. Chuyển tiền trong nước doanh nghiệp - Kết nối BIDV iBank
-4. Thanh toán lương doanh nghiệp - Kết nối BIDV iBank
-5. Đăng ký thanh toán hóa đơn định kỳ - Kết nối BIDV iBank
-"""
-
-
-# Tạo đường dẫn cho file
-file_paths = {
-    "Nhóm ERP": "/mnt/data/nhom_erp.txt",
-    "Nhóm Trung Gian Thanh Toán": "/mnt/data/nhom_trung_gian_thanh_toan.txt",
-    "Nhóm Giải Pháp Bán Hàng": "/mnt/data/nhom_giai_phap_ban_hang.txt",
-    "Nhóm Quản Lý Khách Sạn": "/mnt/data/nhom_quan_ly_khach_san.txt",
-    "Nhóm Khách Hàng Doanh Nghiệp Trực Tiếp": "/mnt/data/nhom_khach_hang_doanh_nghiep_truc_tiep.txt"
-}
-
-# Lưu dữ liệu vào file 
-with open(file_paths["Nhóm ERP"], 'w') as f:
-    f.write(erp_solution_providers)
-
-with open(file_paths["Nhóm Trung Gian Thanh Toán"], 'w') as f:
-    f.write(payment_intermediaries)
-
-with open(file_paths["Nhóm Giải Pháp Bán Hàng"], 'w') as f:
-    f.write(sales_solution_providers)
-
-with open(file_paths["Nhóm Quản Lý Khách Sạn"], 'w') as f:
-    f.write(hotel_management_platform_providers)
-
-with open(file_paths["Nhóm Khách Hàng Doanh Nghiệp Trực Tiếp"], 'w') as f:
-    f.write(direct_enterprise_clients)
+# Mở file PDF
+with pdfplumber.open(pdf_path) as pdf:
+   
+    for page_number in range(len(pdf.pages)):
+        page = pdf.pages[page_number]
+        
+        # Tìm bảng trên trang
+        tables = page.extract_tables()
+        
+        # Nếu có bảng, xử lý từng bảng
+        for table_index, table in enumerate(tables):
+            
+            for row_index, row in enumerate(table):
+                row = [str(cell) if cell is not None else '' for cell in row]
+                
+                # Tạo tên file cho từng hàng
+                file_name = f'output_page_{page_number + 1}_table_{table_index + 1}_row_{row_index + 1}.txt'
+                file_path = os.path.join(output_dir, file_name)
+                
+                # Ghi nội dung hàng vào file
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    # Ghi từng cột trong hàng, ngăn cách bằng tab
+                    f.write('\t'.join(row))  
+                
+                print(f'Đã ghi vào file: {file_path}')  # In ra thông báo đã ghi file
