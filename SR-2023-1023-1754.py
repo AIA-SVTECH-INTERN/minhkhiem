@@ -1,37 +1,34 @@
-import csv
+import imaplib
 
-# Dữ liệu mẫu để ghi vào file CSV
-email_data = [
-    ['From', 'Sent', 'To', 'Subject'],
-    ['NGUYỄN HUYỀN LINH <erp@svtech.com.vn>', 
-     'Monday, October 23, 2023 6:02 PM', 
-     'nguyenhuuthanh1@vnpt.vn\nsupport.nw@svtech.com.vn\nktm.ip@vnpt.vn\nhn.techsupports@svtech.com.vn\nhien.nguyen@svtech.com.vn', 
-     'Ticket được cập nhật: SR-2023-1023-1754 - VNPT NET - SLA - Hỗ trợ kiểm tra lỗi khi commit trên thiết bị HNI-PE5 và HNI-PE6 - SN: JN1262538AFA
-     Kính gửi Quý khách hàng,
+# Thông tin đăng nhập
+email_user = "nguyenminhkhiemlew@gmail.com"  
+email_password = "khiemminh" 
 
- 
+# Kết nối đến Gmail IMAP server
+try:
+    # Tạo kết nối SSL
+    imap = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    print("Kết nối thành công đến Gmail IMAP server.")
 
-Ticket SR-2023-1023-1754
+    # Đăng nhập
+    imap.login(email_user, email_password)
+    print("Đăng nhập thành công.")
 
-Nội dung hỗ trợ: VNPT NET - SLA - Hỗ trợ kiểm tra lỗi khi commit trên thiết bị HNI-PE5 và HNI-PE6 - SN: JN1262538AFA
+    # Kiểm tra hộp thư
+    status, mailboxes = imap.list()
+    if status == "OK":
+        print("Danh sách hộp thư:")
+        for mailbox in mailboxes:
+            print(mailbox.decode())
 
-Thông tin Ticket được cập nhật các thông tin sau vào lúc 23/10/2023 17:54:31:
+    # Chọn hộp thư chính (inbox)
+    imap.select("inbox")
 
-Độ ưu tiên: Minor
-Mức độ hỗ trợ: VNPT-Premium
-Kỹ sư phụ trách:
-Họ và Tên: NGUYỄN HOÀNG HIẾU
-SĐT : 0979110251
-Anh chị sử dụng số ticket/email này để theo dõi và cập nhật tình hình thực hiện.
+except Exception as e:
+    print(f"Có lỗi xảy ra: {e}")
 
-Trân trọng,
-
-']
-]
-
-# Tạo file CSV và ghi dữ liệu
-with open('email_separate_to_output.csv', mode='w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerows(email_data)
-
-print("File CSV đã được tạo.")
+finally:
+    # Đóng kết nối
+    if 'imap' in locals():
+        imap.logout()
+        print("Đã đóng kết nối.")
